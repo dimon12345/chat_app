@@ -42,6 +42,8 @@ android {
 }
 
 dependencies {
+    implementation(libs.timber)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.material3)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.compose.activity)
