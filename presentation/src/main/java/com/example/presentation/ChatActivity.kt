@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import com.example.presentation.theme.AppMainTheme
 import com.example.presentation.ui.auth.AuthPage
 import com.example.presentation.ui.auth.AuthPageViewModel
 import com.example.presentation.ui.auth.ToastNotificator
@@ -17,7 +18,9 @@ class ChatActivity : ComponentActivity(), ToastNotificator {
         super.onCreate(savedInstanceState)
         authPageViewModel.toastNotificator = this
         setContent {
-            AuthPage()
+            AppMainTheme {
+                AuthPage()
+            }
         }
     }
 
