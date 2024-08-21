@@ -66,7 +66,7 @@ fun AuthPage(
         }
 
         if (authPageState.showPinNumberAlert) {
-            PinNumberAlertDialog()
+            AuthVerificationCodePage()
         }
 
         if (authPageState.loading) {

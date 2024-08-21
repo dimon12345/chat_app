@@ -3,7 +3,7 @@ package com.example.domain.auth
 import com.example.domain.data.AuthDeviceResult
 import javax.inject.Inject
 
-class AuthDeviceUseCase @Inject constructor(
+class SendAuthCodeUseCase @Inject constructor(
     private val authRepository: AuthRepository,
 ) {
     suspend operator fun invoke(phoneNumber: String): Result<AuthDeviceResult> {

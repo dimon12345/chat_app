@@ -4,4 +4,5 @@
     <string name="auth_title">Provide your phone number</string>
     <string name="auth_hint">Please enter the phone number to get verification code.</string>
     <string name="auth_button">Send code</string>
+    <string name="enter_verification_code">Enter verification code</string>
 </resources>

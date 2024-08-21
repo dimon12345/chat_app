@@ -6,4 +6,5 @@ data class AuthPageState (
     val phoneNumber: String = "",
     val sendCodeButtonEnabled: Boolean = false,
     val showPinNumberAlert: Boolean = false,
+    val verificationCode: String = ""
 )
