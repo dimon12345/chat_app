@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Chat App</string>
+    <string name="auth_title">Provide your phone number</string>
+    <string name="auth_hint">Please enter the phone number to get verification code.</string>
+    <string name="auth_button">Send code</string>
 </resources>

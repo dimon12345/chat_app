@@ -22,3 +22,5 @@ dependencyResolutionManagement {
 rootProject.name = "Chat Application"
 include(":app")
 include(":presentation")
+include(":domain")
+include(":data")

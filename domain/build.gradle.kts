@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
 
     id("dagger.hilt.android.plugin")
@@ -7,17 +7,14 @@ plugins {
 }
 
 android {
-    namespace = "com.example.chatapplication"
+    namespace = "com.example.domain"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.chatapplication"
         minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -39,11 +36,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":presentation"))
-
     implementation(libs.hilt.android)
-    implementation(project(":data"))
-    implementation(project(":domain"))
     kapt(libs.hilt.compiler)
 
     implementation(libs.androidx.core.ktx)
