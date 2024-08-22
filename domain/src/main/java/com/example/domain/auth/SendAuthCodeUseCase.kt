@@ -8,7 +8,7 @@ class SendAuthCodeUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(phoneNumber: String): Result<AuthDeviceResult> {
         return try {
-            val result = authRepository.authDevice(phoneNumber)
+            val result = authRepository.sendAuthCode(phoneNumber)
             when(result.code) {
                 201 -> {
                     if (result.success) {

@@ -63,10 +63,10 @@ fun AuthVerificationCodePage(
                     .height(dimensionResource(id = R.dimen.auth_code_indicator_height)),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                for (ch in authPageState.verificationCode) {
+                for (ch in authPageState.code) {
                     CodeNumber(ch)
                 }
-                for (i in authPageState.verificationCode.length..VERIFICATION_CODE_LENGTH - 1) {
+                for (i in authPageState.code.length..VERIFICATION_CODE_LENGTH - 1) {
                     EmptyNumber()
                 }
             }
@@ -132,6 +132,13 @@ fun NumberKeyboard(
             NumberKey(numberModifier, "4", onKeyPressed)
             NumberKey(numberModifier, "5", onKeyPressed)
             NumberKey(numberModifier, "6", onKeyPressed)
+        }
+        Row(
+            modifier = rowModifier
+        ) {
+            NumberKey(numberModifier, "7", onKeyPressed)
+            NumberKey(numberModifier, "8", onKeyPressed)
+            NumberKey(numberModifier, "9", onKeyPressed)
         }
 
         Row(

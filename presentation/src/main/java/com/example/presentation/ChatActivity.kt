@@ -6,20 +6,30 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import com.example.presentation.theme.AppMainTheme
-import com.example.presentation.ui.auth.AuthPage
+import com.example.presentation.ui.app.AppPage
+import com.example.presentation.ui.app.AppStateSelector
+import com.example.presentation.ui.app.AppContentType
+import com.example.presentation.ui.app.AppViewModel
 import com.example.presentation.ui.auth.AuthPageViewModel
 import com.example.presentation.ui.auth.ToastNotificator
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ChatActivity : ComponentActivity(), ToastNotificator {
-    val authPageViewModel: AuthPageViewModel by viewModels()
+class ChatActivity :
+    ComponentActivity(),
+    ToastNotificator,
+    AppStateSelector
+{
+    private val authPageViewModel: AuthPageViewModel by viewModels()
+    private val appViewModel: AppViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         authPageViewModel.toastNotificator = this
+        authPageViewModel.appStateSelector = this
         setContent {
             AppMainTheme {
-                AuthPage()
+                AppPage()
             }
         }
     }
@@ -31,4 +41,6 @@ class ChatActivity : ComponentActivity(), ToastNotificator {
                 .show()
         }
     }
+
+    override fun selectState(appStateType: AppContentType) = appViewModel.selectState(appStateType)
 }

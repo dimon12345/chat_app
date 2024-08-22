@@ -4,7 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.auth.CheckAuthCodeUseCase
 import com.example.domain.auth.SendAuthCodeUseCase
-import com.example.domain.auth.CheckPhoneNumberUseCase
+import com.example.domain.auth.CheckPhoneValidUseCase
+import com.example.domain.auth.StoreCheckAuthCodeResultsUseCase
+import com.example.domain.data.CheckAuthResult
+import com.example.presentation.ui.app.AppStateSelector
+import com.example.presentation.ui.app.AppContentType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,13 +20,15 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthPageViewModel @Inject constructor(
     private val authDeviceUseCase: SendAuthCodeUseCase,
-    private val checkPhoneNumberUseCase: CheckPhoneNumberUseCase,
+    private val checkPhoneNumberUseCase: CheckPhoneValidUseCase,
     private val checkAuthCodeUseCase: CheckAuthCodeUseCase,
+    private val storeCheckAuthCodeResultsUseCase: StoreCheckAuthCodeResultsUseCase,
 ) : ViewModel() {
     private var _uiState = MutableStateFlow(AuthPageState())
     val uiState: StateFlow<AuthPageState> = _uiState.asStateFlow()
 
     var toastNotificator: ToastNotificator? = null
+    var appStateSelector: AppStateSelector? = null
 
     init {
         loadSettings()
@@ -30,15 +36,16 @@ class AuthPageViewModel @Inject constructor(
 
     private fun loadSettings() {
         _uiState.value = _uiState.value.copy(
-            phoneNumber = "+79219999999",
-            sendCodeButtonEnabled = true,
-            showPinNumberAlert = false,
+//            phone = "+7921999977",
+//            code = "13333",
+//            sendCodeButtonEnabled = true,
+//            showPinNumberAlert = true,
         )
     }
 
     fun onPhoneNumberChanged(phoneNumber: String) {
         _uiState.value = _uiState.value.copy(
-            phoneNumber = phoneNumber,
+            phone = phoneNumber,
             sendCodeButtonEnabled = checkPhoneNumberUseCase(phoneNumber)
         )
     }
@@ -52,7 +59,7 @@ class AuthPageViewModel @Inject constructor(
         viewModelScope.launch(
             Dispatchers.IO,
         ) {
-            val result = authDeviceUseCase(_uiState.value.phoneNumber)
+            val result = authDeviceUseCase(_uiState.value.phone)
             if (result.isSuccess) {
                 _uiState.value = _uiState.value.copy(
                     showPinNumberAlert = true,
@@ -77,31 +84,44 @@ class AuthPageViewModel @Inject constructor(
             return
         }
 
-        val verificationCode = if (key == "<") {
-            if (state.verificationCode.isEmpty()) {
-                ""
+        val code =
+            if (key == "<") {
+                if (state.code.isEmpty()) {
+                    ""
+                } else {
+                    state.code
+                        .substring(0, state.code.length - 1)
+                }
             } else {
-                state.verificationCode
-                    .substring(0, state.verificationCode.length - 1)
+                state.code + key
             }
-        } else {
-            state.verificationCode + key
-        }
 
-        val loading = verificationCode.length == VERIFICATION_CODE_LENGTH
+        val inputCompleted = code.length == VERIFICATION_CODE_LENGTH
 
         _uiState.value = _uiState.value.copy(
-            verificationCode = verificationCode,
-            loading = loading,
+            code = code,
+            loading = inputCompleted,
         )
 
-        if (loading) {
+        if (inputCompleted) {
             viewModelScope.launch(Dispatchers.IO) {
-                val result = checkAuthCodeUseCase(verificationCode, state.phoneNumber)
-                if (!result.isSuccess) {
+                val result = checkAuthCodeUseCase(state.phone, code)
+                if (result.isSuccess) {
+                    val checkAuthResult = result.getOrNull() ?: CheckAuthResult(errorText = "Something wrong")
+                    if (checkAuthResult.isUserExists) {
+                        storeCheckAuthCodeResultsUseCase(
+                            refreshToken = checkAuthResult.refreshToken,
+                            accessToken = checkAuthResult.accessToken,
+                            userId = checkAuthResult.userId
+                        )
+                        appStateSelector?.selectState(AppContentType.HOME)
+                    } else {
+                        appStateSelector?.selectState(AppContentType.REGISTRATION)
+                    }
+                } else {
                     toastNotificator?.sendToast(result.exceptionOrNull()?.message ?: "Something wrong")
                     _uiState.value = _uiState.value.copy(
-                        verificationCode = "",
+                        code = "",
                         loading = false,
                     )
                 }

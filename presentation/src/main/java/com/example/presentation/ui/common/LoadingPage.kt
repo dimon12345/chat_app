@@ -1,4 +1,4 @@
-package com.example.presentation.ui.auth
+package com.example.presentation.ui.common
 
 import android.widget.ImageView
 import androidx.compose.foundation.background

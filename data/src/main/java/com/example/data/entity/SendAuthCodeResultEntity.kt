@@ -1,9 +1,9 @@
 package com.example.data.entity
 
-import com.example.domain.data.AuthDeviceRequestResult
+import com.example.domain.data.SendAuthCodeRequestResult
 import com.google.gson.annotations.SerializedName
 
-data class AuthDeviceResultEntity (
+data class SendAuthCodeResultEntity (
     @SerializedName("is_success")
     val isSuccess: Boolean? = null,
 
@@ -14,8 +14,8 @@ data class AuthDeviceResultEntity (
     fun toAuthDeviceRequestResult(
         serverCode: Int,
         serverError: String,
-    ): AuthDeviceRequestResult {
-        return AuthDeviceRequestResult(
+    ): SendAuthCodeRequestResult {
+        return SendAuthCodeRequestResult(
             code = serverCode,
             success = isSuccess ?: false,
             errorMessage = serverError,

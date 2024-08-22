@@ -5,6 +5,6 @@
     <dimen name="loading_image_size">40dp</dimen>
     <dimen name="auth_empty_number_size">20dp</dimen>
     <dimen name="auth_number_width">50dp</dimen>
-    <dimen name="auth_number_key_height">122dp</dimen>
+    <dimen name="auth_number_key_height">82dp</dimen>
     <dimen name="auth_code_indicator_height">112dp</dimen>
 </resources>

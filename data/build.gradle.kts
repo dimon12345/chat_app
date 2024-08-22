@@ -44,6 +44,8 @@ dependencies {
     api(libs.retrofit)
     api(libs.converter.gson)
     implementation(libs.logging.interceptor)
+    implementation(libs.androidx.datastore.core)
+    implementation(libs.androidx.datastore.preferences)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
