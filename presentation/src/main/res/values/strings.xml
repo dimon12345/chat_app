@@ -14,4 +14,6 @@
     <string name="registration_name">Name</string>
     <string name="registration_username">Username</string>
     <string name="registration_button">Register</string>
+    <string name="profile_title">Profile</string>
+    <string name="profile_editor_title">Edit profile</string>
 </resources>

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.auth.GetAccessTokenUseCase
 import com.example.domain.auth.GetRefreshTokenUseCase
 import com.example.domain.auth.GetUserIdUseCase
+import com.example.presentation.ui.home.HomePageViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,6 +22,7 @@ class AppViewModel @Inject constructor(
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(AppState())
     val uiState = _uiState.asStateFlow()
+
     init {
         loadSettings()
     }
@@ -32,9 +34,8 @@ class AppViewModel @Inject constructor(
 //            )
 
             val userId = getUserIdUseCase().first() ?: 0
-            val refreshToken = getRefreshTokenUseCase().first() ?: ""
             val appContentType = if ( userId > 0L) {
-                assert(refreshToken.isNotEmpty())
+                assert(!getRefreshTokenUseCase().first().isNullOrBlank())
                 assert(!getAccessTokenUseCase().first().isNullOrBlank())
                 AppContentType.HOME
             } else {

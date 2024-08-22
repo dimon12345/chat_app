@@ -2,8 +2,10 @@
 <resources>
     <dimen name="fat_padding">24dp</dimen>
     <dimen name="default_padding">16dp</dimen>
+    <dimen name="half_padding">8dp</dimen>
     <dimen name="loading_image_size">40dp</dimen>
     <dimen name="text_field_corner_radius">2dp</dimen>
+    <dimen name="top_bar_height">58dp</dimen>
 
     <!-- auth -->
     <dimen name="auth_empty_number_size">20dp</dimen>
