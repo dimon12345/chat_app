@@ -1,13 +1,11 @@
 package com.example.presentation.ui.auth
 
-import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -16,14 +14,9 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.focus.focusModifier
-import androidx.compose.ui.focus.focusTarget
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.presentation.R
@@ -36,8 +29,10 @@ fun AuthPage(
 ) {
     val authPageState = authPageViewModel.uiState.collectAsState().value
     Box {
-        Column(modifier = modifier
-            .padding(dimensionResource(id = R.dimen.default_padding))) {
+        Column(
+            modifier = modifier
+                .padding(dimensionResource(id = R.dimen.default_padding))
+        ) {
             Text(
                 text = stringResource(id = R.string.auth_title),
                 color = MaterialTheme.colorScheme.onSurface,

@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Chat App</string>
+
+    <!-- auth -->
     <string name="auth_title">Provide your phone number</string>
     <string name="auth_hint">Please enter the phone number to get verification code.</string>
     <string name="auth_button">Send code</string>
-    <string name="enter_verification_code">Enter verification code</string>
+    <string name="auth_verification_code_hint">Enter verification code</string>
+
+    <!-- registration -->
+    <string name="registration_title">Register account</string>
+    <string name="registration_hint">Please apply form to get account.</string>
+    <string name="registration_name">Name</string>
+    <string name="registration_username">Username</string>
+    <string name="registration_button">Register</string>
 </resources>

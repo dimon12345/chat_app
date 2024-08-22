@@ -12,12 +12,13 @@ data class SendAuthCodeResultEntity (
 
 ) {
     fun toAuthDeviceRequestResult(
+        success: Boolean,
         serverCode: Int,
         serverError: String,
     ): SendAuthCodeRequestResult {
         return SendAuthCodeRequestResult(
             code = serverCode,
-            success = isSuccess ?: false,
+            success = success,
             errorMessage = serverError,
         )
     }

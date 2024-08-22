@@ -50,7 +50,7 @@ fun AuthVerificationCodePage(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .padding(dimensionResource(id = R.dimen.default_padding)),
-                text = stringResource(id = R.string.enter_verification_code),
+                text = stringResource(id = R.string.auth_verification_code_hint),
                 color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.titleMedium,
             )

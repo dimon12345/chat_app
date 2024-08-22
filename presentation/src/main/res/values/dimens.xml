@@ -3,8 +3,14 @@
     <dimen name="fat_padding">24dp</dimen>
     <dimen name="default_padding">16dp</dimen>
     <dimen name="loading_image_size">40dp</dimen>
+    <dimen name="text_field_corner_radius">2dp</dimen>
+
+    <!-- auth -->
     <dimen name="auth_empty_number_size">20dp</dimen>
     <dimen name="auth_number_width">50dp</dimen>
     <dimen name="auth_number_key_height">82dp</dimen>
     <dimen name="auth_code_indicator_height">112dp</dimen>
+
+    <!-- registration -->
+    <dimen name="registration_input_height">72dp</dimen>
 </resources>

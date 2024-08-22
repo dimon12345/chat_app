@@ -12,6 +12,7 @@ import com.example.presentation.ui.app.AppContentType
 import com.example.presentation.ui.app.AppViewModel
 import com.example.presentation.ui.auth.AuthPageViewModel
 import com.example.presentation.ui.auth.ToastNotificator
+import com.example.presentation.ui.registration.RegistrationViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,12 +22,17 @@ class ChatActivity :
     AppStateSelector
 {
     private val authPageViewModel: AuthPageViewModel by viewModels()
+    private val registrationViewModel: RegistrationViewModel by viewModels()
     private val appViewModel: AppViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         authPageViewModel.toastNotificator = this
         authPageViewModel.appStateSelector = this
+        registrationViewModel.toastNotificator = this
+        registrationViewModel.appStateSelector = this
+
         setContent {
             AppMainTheme {
                 AppPage()

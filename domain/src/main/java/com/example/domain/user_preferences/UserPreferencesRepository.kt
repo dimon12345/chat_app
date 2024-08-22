@@ -10,6 +10,7 @@ interface UserPreferencesRepository {
     fun getLong(keh: String): Flow<Long?>
 
     companion object {
+        const val PHONE_NUMBER_KEY = "phone_number"
         const val REFRESH_TOKEN_KEY = "refresh_token"
         const val ACCESS_TOKEN_KEY = "access_token"
         const val USER_ID_KEY = "user_id"

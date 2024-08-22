@@ -4,7 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.auth.CheckAuthCodeUseCase
 import com.example.domain.auth.SendAuthCodeUseCase
-import com.example.domain.auth.CheckPhoneValidUseCase
+import com.example.domain.auth.ValidatePhoneNumberUseCase
+import com.example.domain.auth.SavePhoneNumberUseCase
 import com.example.domain.auth.StoreCheckAuthCodeResultsUseCase
 import com.example.domain.data.CheckAuthResult
 import com.example.presentation.ui.app.AppStateSelector
@@ -20,9 +21,10 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthPageViewModel @Inject constructor(
     private val authDeviceUseCase: SendAuthCodeUseCase,
-    private val checkPhoneNumberUseCase: CheckPhoneValidUseCase,
+    private val checkPhoneNumberUseCase: ValidatePhoneNumberUseCase,
     private val checkAuthCodeUseCase: CheckAuthCodeUseCase,
     private val storeCheckAuthCodeResultsUseCase: StoreCheckAuthCodeResultsUseCase,
+    private val saveUserPhoneUseCase: SavePhoneNumberUseCase,
 ) : ViewModel() {
     private var _uiState = MutableStateFlow(AuthPageState())
     val uiState: StateFlow<AuthPageState> = _uiState.asStateFlow()
@@ -36,7 +38,7 @@ class AuthPageViewModel @Inject constructor(
 
     private fun loadSettings() {
         _uiState.value = _uiState.value.copy(
-//            phone = "+7921999977",
+//            phone = "+79219999777",
 //            code = "13333",
 //            sendCodeButtonEnabled = true,
 //            showPinNumberAlert = true,
@@ -65,6 +67,7 @@ class AuthPageViewModel @Inject constructor(
                     showPinNumberAlert = true,
                     loading = false,
                 )
+                saveUserPhoneUseCase(_uiState.value.phone)
             } else {
                 _uiState.value = _uiState.value.copy(
                     showPinNumberAlert = false,
