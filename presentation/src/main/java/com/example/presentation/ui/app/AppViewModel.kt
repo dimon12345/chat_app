@@ -27,22 +27,22 @@ class AppViewModel @Inject constructor(
 
     private fun loadSettings() {
         viewModelScope.launch(Dispatchers.IO) {
-            _uiState.value = _uiState.value.copy(
-                currentAppStateType = AppContentType.REGISTRATION
-            )
-
-//            val userId = getUserIdUseCase().first() ?: 0
-//            val refreshToken = getRefreshTokenUseCase().first() ?: ""
-//            val appContentType = if ( userId > 0L) {
-//                assert(refreshToken.isNotEmpty())
-//                assert(!getAccessTokenUseCase().first().isNullOrBlank())
-//                AppContentType.HOME
-//            } else {
-//                AppContentType.AUTHORIZATION
-//            }
 //            _uiState.value = _uiState.value.copy(
-//                currentAppStateType = appContentType
+//                currentAppStateType = AppContentType.REGISTRATION
 //            )
+
+            val userId = getUserIdUseCase().first() ?: 0
+            val refreshToken = getRefreshTokenUseCase().first() ?: ""
+            val appContentType = if ( userId > 0L) {
+                assert(refreshToken.isNotEmpty())
+                assert(!getAccessTokenUseCase().first().isNullOrBlank())
+                AppContentType.HOME
+            } else {
+                AppContentType.AUTHORIZATION
+            }
+            _uiState.value = _uiState.value.copy(
+                currentAppStateType = appContentType
+            )
         }
     }
 
