@@ -7,5 +7,5 @@ import javax.inject.Inject
 class GetUserIdUseCase @Inject constructor(
     private val userPreferencesRepository: UserPreferencesRepository,
 ) {
-    operator fun invoke() = userPreferencesRepository.getLong(USER_ID_KEY)
+    operator fun invoke() = userPreferencesRepository.getInt(USER_ID_KEY)
 }

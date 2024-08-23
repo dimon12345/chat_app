@@ -6,8 +6,8 @@ interface UserPreferencesRepository {
     suspend fun setString(key: String, value: String)
     fun getString(key: String): Flow<String?>
 
-    suspend fun setLong(keh: String, value: Long)
-    fun getLong(keh: String): Flow<Long?>
+    suspend fun setInt(key: String, value: Int)
+    fun getInt(key: String): Flow<Int?>
 
     companion object {
         const val PHONE_NUMBER_KEY = "phone_number"

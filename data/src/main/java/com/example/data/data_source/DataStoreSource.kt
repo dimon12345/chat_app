@@ -3,6 +3,7 @@ package com.example.data.data_source
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.Flow
@@ -20,33 +21,29 @@ class DataStoreSource @Inject constructor(
     }
 
     fun getString(key: String): Flow<String?> {
-        var message: String? = null
         try {
             return dataStorePreferences.data.map { preferences ->
                 preferences[stringPreferencesKey(key)]
             }
-        } catch (e: Exception) {
-            message = e.message
+        } catch (_: Exception) {
         }
 
         assert(false, { "IO Error" })
         return flow { emit(null)}
     }
 
-    suspend fun setLong(key: String, value: Long) {
+    suspend fun setInt(key: String, value: Int) {
         dataStorePreferences.edit { preferences ->
-            preferences[longPreferencesKey(key)] = value
+            preferences[intPreferencesKey(key)] = value
         }
     }
 
-    fun getLong(key: String): Flow<Long?> {
-        var message: String? = null
+    fun getInt(key: String): Flow<Int?> {
         try {
             return dataStorePreferences.data.map { preferences ->
-                preferences[longPreferencesKey(key)]
+                preferences[intPreferencesKey(key)]
             }
-        } catch (e: Exception) {
-            message = e.message
+        } catch (_: Exception) {
         }
 
         assert(false, { "IO Error" })

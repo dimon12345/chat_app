@@ -1,9 +1,9 @@
 package com.example.data.entity
 
-import com.example.domain.data.RegisterRequestResult
+import com.example.domain.data.RefreshTokenRequestResult
 import com.google.gson.annotations.SerializedName
 
-data class RegisterResultEntity(
+data class RefreshTokenResultEntity (
     @SerializedName("refresh_token")
     val refreshToken: String? = null,
 
@@ -12,22 +12,17 @@ data class RegisterResultEntity(
 
     @SerializedName("user_id")
     val userId: Int? = null,
-
-    @SerializedName("detail")
-    val detail: List<PhoneSyntaxErrorDetailEntity>? = null
 ) {
-    fun toRegisterRequestResult(
+    fun toRefreshTokenRequestResult(
         success: Boolean,
         serverCode: Int,
         serverError: String
-    ): RegisterRequestResult {
-        return RegisterRequestResult(
+    ): RefreshTokenRequestResult {
+        return RefreshTokenRequestResult(
             success = success,
-            errorMessage = serverError,
             code = serverCode,
-            refreshToken = refreshToken ?: "",
+            errorMessage = serverError,
             accessToken = accessToken ?: "",
-            userId = userId ?: 0,
         )
     }
 }

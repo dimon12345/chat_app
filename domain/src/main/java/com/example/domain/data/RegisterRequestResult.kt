@@ -7,5 +7,5 @@ data class RegisterRequestResult (
     val syntaxErrorDetails: List<SyntaxErrorDetail>? = listOf(),
     val refreshToken: String = "",
     val accessToken: String = "",
-    val userId: Long = 0L,
+    val userId: Int = 0,
 )

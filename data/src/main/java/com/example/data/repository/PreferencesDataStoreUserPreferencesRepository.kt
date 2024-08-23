@@ -11,6 +11,6 @@ class PreferencesDataStoreUserPreferencesRepository @Inject constructor(
     override suspend fun setString(key: String, value: String) = dataStoreSource.setString(key, value)
     override fun getString(key: String): Flow<String?> = dataStoreSource.getString(key)
 
-    override suspend fun setLong(key: String, value: Long) = dataStoreSource.setLong(key, value)
-    override fun getLong(key: String): Flow<Long?> = dataStoreSource.getLong(key)
+    override suspend fun setInt(key: String, value: Int) = dataStoreSource.setInt(key, value)
+    override fun getInt(key: String): Flow<Int?> = dataStoreSource.getInt(key)
 }

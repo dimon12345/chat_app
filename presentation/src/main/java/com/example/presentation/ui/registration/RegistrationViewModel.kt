@@ -30,20 +30,6 @@ class RegistrationViewModel @Inject constructor(
     var toastNotificator: ToastNotificator? = null
     var appStateSelector: AppStateSelector? = null
 
-    init {
-        loadSettings()
-    }
-
-    private fun loadSettings() {
-        viewModelScope.launch (Dispatchers.IO) {
-            val phone = getPhoneNumberUseCase().first() ?: ""
-            assert(phone.isNotEmpty())
-            _uiState.value = _uiState.value.copy(
-                phone = phone,
-            )
-        }
-    }
-
     fun onNameChanged(name: String) {
         _uiState.value = _uiState.value.copy(
             name = name,

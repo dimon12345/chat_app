@@ -11,7 +11,7 @@ data class CheckAuthCodeResultEntity(
     val accessToken: String? = null,
 
     @SerializedName("user_id")
-    val userId: Long? = null,
+    val userId: Int? = null,
 
     @SerializedName("is_user_exists")
     val isUserExists: Boolean? = null,
@@ -30,7 +30,7 @@ data class CheckAuthCodeResultEntity(
             code = serverCode,
             refreshToken = refreshToken ?: "",
             accessToken = accessToken ?: "",
-            userId = userId ?: 0L,
+            userId = userId ?: 0,
             isUserExists = isUserExists ?: false,
         )
     }

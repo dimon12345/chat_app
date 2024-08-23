@@ -12,10 +12,10 @@ class StoreCheckAuthCodeResultsUseCase @Inject constructor(
     suspend operator fun invoke(
         refreshToken: String,
         accessToken: String,
-        userId: Long,
+        userId: Int,
     ) {
         userPreferencesRepository.setString(REFRESH_TOKEN_KEY, refreshToken)
         userPreferencesRepository.setString(ACCESS_TOKEN_KEY, accessToken)
-        userPreferencesRepository.setLong(USER_ID_KEY, userId)
+        userPreferencesRepository.setInt(USER_ID_KEY, userId)
     }
 }

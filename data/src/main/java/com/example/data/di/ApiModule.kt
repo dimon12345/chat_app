@@ -4,10 +4,14 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.room.Room
 import com.example.data.api.MangoTestBackendApiService
 import com.example.data.data_source.DataStoreSource
+import com.example.data.db.ApplicationDatabase
 import com.example.data.repository.MangoTestBackendMainRepository
 import com.example.data.repository.PreferencesDataStoreUserPreferencesRepository
+import com.example.data.repository.RoomLocalRepository
+import com.example.domain.repository.LocalRepository
 import com.example.domain.repository.MainRepository
 import com.example.domain.repository.UserPreferencesRepository
 import com.google.gson.GsonBuilder
@@ -23,13 +27,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user_preferences")
-
+private const val DATABASE_NAME = "data"
 @Module
 @InstallIn(SingletonComponent::class)
 object ApiModule {
     @Provides
     @Singleton
-    fun provideAuthRepository(
+    fun provideMainRepository(
         mangoTestBackendApiService: MangoTestBackendApiService,
     ): MainRepository = MangoTestBackendMainRepository(
         mangoTestBackendApiService,
@@ -78,5 +82,22 @@ object ApiModule {
     @Singleton
     fun providePreferencesDataStore(@ApplicationContext context: Context): DataStore<Preferences> {
         return context.dataStore
+    }
+
+    @Singleton
+    @Provides
+    fun provideLocalRepository(
+        applicationDatabase: ApplicationDatabase,
+    ) : LocalRepository {
+        return RoomLocalRepository(applicationDatabase)
+    }
+
+    @Provides
+    @Singleton
+    fun provideApplicationDatabase(@ApplicationContext context: Context): ApplicationDatabase {
+        // app runs in a single process
+        return Room
+            .databaseBuilder(context, ApplicationDatabase::class.java, DATABASE_NAME)
+            .build()
     }
 }

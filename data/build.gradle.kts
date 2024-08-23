@@ -4,6 +4,7 @@ plugins {
 
     id("dagger.hilt.android.plugin")
     id("kotlin-kapt")
+
 }
 
 android {
@@ -46,6 +47,10 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.androidx.datastore.core)
     implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.room.runtime)
+    kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
