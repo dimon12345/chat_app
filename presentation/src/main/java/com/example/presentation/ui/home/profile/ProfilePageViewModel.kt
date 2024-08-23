@@ -30,14 +30,16 @@ class ProfilePageViewModel @Inject constructor  (
         viewModelScope.launch(Dispatchers.IO) {
             val userId = getUserIdUseCase().first() ?: 0
             assert(userId > 0)
+            _uiState.value = _uiState.value.copy(
+                loading = true,
+            )
             getProfileDataUseCase(userId).collect { profileRequestResult ->
                 val profile = profileRequestResult.profile
                 if (profile.userId != 0) {
                     _uiState.value = _uiState.value.copy(
                         profile = profile,
+                        loading = false,
                     )
-                } else {
-                    _uiState.value = _uiState.value
                 }
             }
         }
