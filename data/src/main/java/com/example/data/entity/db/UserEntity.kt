@@ -32,6 +32,30 @@ data class UserEntity (
     @ColumnInfo(name = "phone")
     val phone: String,
 ) {
+    override fun equals(other: Any?): Boolean {
+        return other is UserEntity
+                && userId == other.userId
+                && name == other.name
+                && username == other.username
+                && birthday == other.birthday
+                && city == other.city
+                && avatar == other.avatar
+                && status == other.status
+                && phone == other.phone
+    }
+
+    override fun hashCode(): Int {
+        var result = userId
+        result = 31 * result + name.hashCode()
+        result = 31 * result + username.hashCode()
+        result = 31 * result + birthday.hashCode()
+        result = 31 * result + city.hashCode()
+        result = 31 * result + avatar.hashCode()
+        result = 31 * result + status.hashCode()
+        result = 31 * result + phone.hashCode()
+        return result
+    }
+
     fun toProfileData(): ProfileData {
         return ProfileData(
             userId = userId,
