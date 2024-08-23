@@ -1,7 +1,7 @@
 package com.example.domain.auth
 
-import com.example.domain.user_preferences.UserPreferencesRepository
-import com.example.domain.user_preferences.UserPreferencesRepository.Companion.REFRESH_TOKEN_KEY
+import com.example.domain.repository.UserPreferencesRepository
+import com.example.domain.repository.UserPreferencesRepository.Companion.REFRESH_TOKEN_KEY
 import javax.inject.Inject
 
 class GetRefreshTokenUseCase @Inject constructor(

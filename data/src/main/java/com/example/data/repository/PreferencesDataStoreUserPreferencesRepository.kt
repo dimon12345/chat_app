@@ -1,7 +1,7 @@
 package com.example.data.repository
 
 import com.example.data.data_source.DataStoreSource
-import com.example.domain.user_preferences.UserPreferencesRepository
+import com.example.domain.repository.UserPreferencesRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

@@ -6,10 +6,10 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.data.api.MangoTestBackendApiService
 import com.example.data.data_source.DataStoreSource
-import com.example.data.repository.MangoTestBackendAuthRepository
+import com.example.data.repository.MangoTestBackendMainRepository
 import com.example.data.repository.PreferencesDataStoreUserPreferencesRepository
-import com.example.domain.auth.AuthRepository
-import com.example.domain.user_preferences.UserPreferencesRepository
+import com.example.domain.repository.MainRepository
+import com.example.domain.repository.UserPreferencesRepository
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -31,7 +31,7 @@ object ApiModule {
     @Singleton
     fun provideAuthRepository(
         mangoTestBackendApiService: MangoTestBackendApiService,
-    ): AuthRepository = MangoTestBackendAuthRepository(
+    ): MainRepository = MangoTestBackendMainRepository(
         mangoTestBackendApiService,
     )
 

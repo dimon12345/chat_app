@@ -1,4 +1,4 @@
-package com.example.domain.user_preferences
+package com.example.domain.repository
 
 import kotlinx.coroutines.flow.Flow
 

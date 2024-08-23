@@ -4,15 +4,15 @@ import com.example.data.api.MangoTestBackendApiService
 import com.example.data.entity.CheckAuthCodeResultEntity
 import com.example.data.entity.RegisterResultEntity
 import com.example.data.entity.SendAuthCodeResultEntity
-import com.example.domain.auth.AuthRepository
+import com.example.domain.repository.MainRepository
 import com.example.domain.data.CheckAuthRequestResult
 import com.example.domain.data.RegisterRequestResult
 import com.example.domain.data.SendAuthCodeRequestResult
 import javax.inject.Inject
 
-class MangoTestBackendAuthRepository @Inject constructor(
+class MangoTestBackendMainRepository @Inject constructor(
     private val mangoTestBackendApiService: MangoTestBackendApiService,
-) : AuthRepository {
+) : MainRepository {
     override suspend fun sendAuthCode(
         phone: String
     ): SendAuthCodeRequestResult {

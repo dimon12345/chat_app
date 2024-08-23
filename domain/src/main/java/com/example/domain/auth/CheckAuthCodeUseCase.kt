@@ -1,11 +1,11 @@
 package com.example.domain.auth
 
 import com.example.domain.data.CheckAuthResult
-import kotlinx.coroutines.delay
+import com.example.domain.repository.MainRepository
 import javax.inject.Inject
 
 class CheckAuthCodeUseCase @Inject constructor(
-    private val authRepository: AuthRepository,
+    private val mainRepository: MainRepository,
 )
 {
     suspend operator fun invoke(
@@ -13,7 +13,7 @@ class CheckAuthCodeUseCase @Inject constructor(
         code: String,
     ): Result<CheckAuthResult> {
         return try {
-            val result = authRepository.checkAuthCode(phone, code)
+            val result = mainRepository.checkAuthCode(phone, code)
             return when(result.code) {
                 200 -> {
                     with(result) {
