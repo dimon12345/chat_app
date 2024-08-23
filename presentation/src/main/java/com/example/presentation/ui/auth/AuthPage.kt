@@ -27,7 +27,7 @@ fun AuthPage(
     modifier: Modifier = Modifier,
     authPageViewModel: AuthPageViewModel = viewModel(),
 ) {
-    val authPageState = authPageViewModel.uiState.collectAsState().value
+    val state = authPageViewModel.uiState.collectAsState().value
     Box {
         Column(
             modifier = modifier
@@ -52,8 +52,8 @@ fun AuthPage(
             TextField(
                 modifier = Modifier
                     .fillMaxWidth(1f),
-                enabled = !authPageState.showPinNumberAlert,
-                value = authPageState.phone,
+                enabled = !state.showPinNumberAlert,
+                value = state.phone,
                 onValueChange = { authPageViewModel.onPhoneNumberChanged(it) },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Phone,
@@ -66,17 +66,17 @@ fun AuthPage(
                 modifier = Modifier.fillMaxWidth(1f),
                 shape = RectangleShape,
                 onClick = { authPageViewModel.onAuthSubmit() },
-                enabled = authPageState.sendCodeButtonEnabled,
+                enabled = state.sendCodeButtonEnabled,
             ) {
                 Text(stringResource(id = R.string.auth_button))
             }
         }
 
-        if (authPageState.showPinNumberAlert) {
+        if (state.showPinNumberAlert) {
             AuthVerificationCodePage()
         }
 
-        if (authPageState.loading) {
+        if (state.loading) {
             LoadingPage()
         }
     }
