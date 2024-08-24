@@ -25,6 +25,9 @@ data class GetProfileDataResultEntity(
 
     @SerializedName("phone")
     val phone: String? = null,
+
+    @SerializedName("status")
+    val status: String? = null,
 ) {
     fun toGetProfileDataRequestResult(
         success: Boolean,
@@ -43,6 +46,7 @@ data class GetProfileDataResultEntity(
                 avatar = avatar ?: "",
                 userId = userId ?: 0,
                 phone = phone ?: "",
+                status = status ?: "",
             ),
         )
     }
