@@ -1,6 +1,5 @@
 package com.example.presentation.ui.auth
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.auth.CheckAuthCodeUseCase
 import com.example.domain.auth.SendAuthCodeUseCase
@@ -8,8 +7,9 @@ import com.example.domain.auth.ValidatePhoneNumberUseCase
 import com.example.domain.auth.SavePhoneNumberUseCase
 import com.example.domain.auth.StoreCheckAuthCodeResultsUseCase
 import com.example.domain.data.CheckAuthResult
-import com.example.presentation.ui.app.AppStateSelector
-import com.example.presentation.ui.app.AppContentType
+import com.example.presentation.ui.app.AppPageStateSelector
+import com.example.presentation.ui.app.AppPageContentType
+import com.example.presentation.ui.app.AppViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,12 +25,9 @@ class AuthPageViewModel @Inject constructor(
     private val checkAuthCodeUseCase: CheckAuthCodeUseCase,
     private val storeCheckAuthCodeResultsUseCase: StoreCheckAuthCodeResultsUseCase,
     private val saveUserPhoneUseCase: SavePhoneNumberUseCase,
-) : ViewModel() {
+) : AppViewModel() {
     private var _uiState = MutableStateFlow(AuthPageState())
     val uiState: StateFlow<AuthPageState> = _uiState.asStateFlow()
-
-    var toastNotificator: ToastNotificator? = null
-    var appStateSelector: AppStateSelector? = null
 
     init {
         loadSettings()
@@ -74,7 +71,7 @@ class AuthPageViewModel @Inject constructor(
                     sendCodeButtonEnabled = true,
                     loading = false,
                 )
-                toastNotificator?.sendToast(
+                sendToast(
                     result.exceptionOrNull()?.message ?: "Something wrong"
                 )
             }
@@ -117,12 +114,12 @@ class AuthPageViewModel @Inject constructor(
                             accessToken = checkAuthResult.accessToken,
                             userId = checkAuthResult.userId
                         )
-                        appStateSelector?.selectState(AppContentType.HOME)
+                        setAppPageContentType(AppPageContentType.HOME)
                     } else {
-                        appStateSelector?.selectState(AppContentType.REGISTRATION)
+                        setAppPageContentType(AppPageContentType.REGISTRATION)
                     }
                 } else {
-                    toastNotificator?.sendToast(result.exceptionOrNull()?.message ?: "Something wrong")
+                    sendToast(result.exceptionOrNull()?.message ?: "Something wrong")
                     _uiState.value = _uiState.value.copy(
                         code = "",
                         loading = false,

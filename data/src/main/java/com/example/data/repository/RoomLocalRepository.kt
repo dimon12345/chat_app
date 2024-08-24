@@ -12,7 +12,7 @@ import javax.inject.Inject
 class RoomLocalRepository @Inject constructor(
     private val applicationDatabase: ApplicationDatabase,
 ): LocalRepository {
-    override suspend fun addProfileData(profile: ProfileData) {
+    override suspend fun updateProfileData(profile: ProfileData) {
         applicationDatabase.userDao().insert(profile.toProfileEntity())
     }
 

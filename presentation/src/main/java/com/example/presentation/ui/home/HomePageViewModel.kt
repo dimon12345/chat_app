@@ -35,4 +35,10 @@ class HomePageViewModel @Inject constructor(
             contentType = HomePageContentType.PROFILE,
         )
     }
+
+    fun selectContent(contentTYpe: HomePageContentType) {
+        _uiState.value = _uiState.value.copy(
+            contentType = contentTYpe,
+        )
+    }
 }

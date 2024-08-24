@@ -2,18 +2,19 @@ package com.example.data.repository
 
 import com.example.data.api.MangoTestBackendApiService
 import com.example.data.entity.CheckAuthCodeResultEntity
-import com.example.data.entity.ProfileDataResultEntity
-import com.example.data.entity.ProfileResultEntity
+import com.example.data.entity.GetProfileDataResultEntity
 import com.example.data.entity.RefreshTokenResultEntity
 import com.example.data.entity.RegisterResultEntity
 import com.example.data.entity.SendAuthCodeResultEntity
+import com.example.data.entity.SetProfileResultEntity
 import com.example.domain.repository.MainRepository
 import com.example.domain.data.CheckAuthRequestResult
+import com.example.domain.data.GetProfileDataRequestResult
 import com.example.domain.data.ProfileData
-import com.example.domain.data.ProfileDataRequestResult
 import com.example.domain.data.RefreshTokenRequestResult
 import com.example.domain.data.RegisterRequestResult
 import com.example.domain.data.SendAuthCodeRequestResult
+import com.example.domain.data.SetProfileDataRequestResult
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
@@ -97,7 +98,7 @@ class MangoTestBackendMainRepository @Inject constructor(
         }
     }
 
-    override suspend fun getProfile(token: String): ProfileDataRequestResult {
+    override suspend fun getProfile(token: String): GetProfileDataRequestResult {
         return try {
             val response = mangoTestBackendApiService.getProfile("Bearer $token")
             val success = response.code() == REGISTER_SUCCESS_CODE
@@ -108,24 +109,60 @@ class MangoTestBackendMainRepository @Inject constructor(
                     "${response.code()}: ${response.errorBody()?.string() ?: ""}"
                 }
 
-            val resultEntity: ProfileDataResultEntity =
-                response.body()?.profileData ?: ProfileDataResultEntity()
-            resultEntity.toProfileDataRequestResult(
+            val resultEntity: GetProfileDataResultEntity =
+                response.body()?.profileData ?: GetProfileDataResultEntity()
+            resultEntity.toGetProfileDataRequestResult(
                 success = success,
                 serverCode = response.code(),
                 serverError = serverError,
             )
         } catch(e: Exception) {
-            ProfileDataRequestResult(
+            GetProfileDataRequestResult(
                 errorMessage = e.message ?: "Something wrong"
             )
         }
     }
 
-    override suspend fun refreshToken(refreshToken: String): RefreshTokenRequestResult {
+    override suspend fun updateProfile(
+        token: String,
+        profile: ProfileData
+    ): SetProfileDataRequestResult {
+        return try {
+            val args = HashMap<String, String>()
+            with(profile) {
+                args["name"] = name
+                args["username"] = username
+                //args["birthday"] = birthday
+                args["city"] = city
+                args["status"] = status
+            }
+
+            val response = mangoTestBackendApiService.setProfile("Bearer $token", args)
+            val success = response.code() == SET_PROFILE_SUCCESS_CODE
+            val serverError =
+                if (success) {
+                    ""
+                } else {
+                    "${response.code()}: ${response.errorBody()?.string() ?: ""}"
+                }
+            val resultEntity: SetProfileResultEntity =
+                response.body() ?: SetProfileResultEntity()
+            resultEntity.toSetProfileDataRequestResult(
+                success = success,
+                serverCode = response.code(),
+                serverError = serverError,
+            )
+        } catch(e: Exception) {
+            SetProfileDataRequestResult(
+                errorMessage = e.message ?: "Something wrong"
+            )
+        }
+    }
+
+    override suspend fun refreshToken(refreshToken: String, accessToken: String): RefreshTokenRequestResult {
         return refreshTokenMutex.withLock {
             try {
-                if (lastAccessToken.isNotEmpty() && lastAccessToken != refreshToken) {
+                if (lastAccessToken.isNotEmpty() && lastAccessToken != accessToken) {
                     return RefreshTokenRequestResult(
                         success = true,
                         accessToken = lastAccessToken,
@@ -137,14 +174,19 @@ class MangoTestBackendMainRepository @Inject constructor(
                 val response = mangoTestBackendApiService.refreshToken(args)
                 val resultEntity: RefreshTokenResultEntity =
                     response.body() ?: RefreshTokenResultEntity()
+                val success = response.code() == REFRESH_TOKEN_SUCCESS_CODE
                 val serverError =
-                    if (response.code() == REFRESH_TOKEN_SUCCESS_CODE) {
+                    if (success) {
                         assert(resultEntity.accessToken?.isNotEmpty() == true)
                         ""
                     } else {
                         "${response.code()}: ${response.errorBody()?.string() ?: ""}"
                     }
-                val success = response.code() == REFRESH_TOKEN_SUCCESS_CODE
+
+                if (resultEntity.accessToken?.isNotEmpty() == true) {
+                    lastAccessToken = resultEntity.accessToken
+                }
+
                 return resultEntity.toRefreshTokenRequestResult(
                     success = success,
                     serverCode = response.code(),
@@ -161,6 +203,7 @@ class MangoTestBackendMainRepository @Inject constructor(
     companion object {
         const val REGISTER_SUCCESS_CODE = 201
         const val REFRESH_TOKEN_SUCCESS_CODE = 200
+        const val SET_PROFILE_SUCCESS_CODE = 200
 
         val refreshTokenMutex = Mutex()
         var lastAccessToken: String = ""

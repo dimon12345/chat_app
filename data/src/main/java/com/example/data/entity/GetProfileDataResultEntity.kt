@@ -1,10 +1,10 @@
 package com.example.data.entity
 
 import com.example.domain.data.ProfileData
-import com.example.domain.data.ProfileDataRequestResult
+import com.example.domain.data.GetProfileDataRequestResult
 import com.google.gson.annotations.SerializedName
 
-data class ProfileDataResultEntity(
+data class GetProfileDataResultEntity(
     @SerializedName("name")
     val name: String? = null,
 
@@ -26,12 +26,12 @@ data class ProfileDataResultEntity(
     @SerializedName("phone")
     val phone: String? = null,
 ) {
-    fun toProfileDataRequestResult(
+    fun toGetProfileDataRequestResult(
         success: Boolean,
         serverCode: Int,
         serverError: String
-    ): ProfileDataRequestResult {
-        return ProfileDataRequestResult(
+    ): GetProfileDataRequestResult {
+        return GetProfileDataRequestResult(
             success = success,
             code = serverCode,
             errorMessage = serverError,

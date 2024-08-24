@@ -10,13 +10,13 @@ import com.example.presentation.ui.home.HomePage
 
 @Composable
 fun AppPage(
-    appPageViewModel: AppViewModel = viewModel(),
+    appPageViewModel: AppPageViewModel = viewModel(),
 ) {
     val uiState = appPageViewModel.uiState.collectAsState().value
     when(uiState.currentAppStateType) {
-        AppContentType.AUTHORIZATION -> AuthPage()
-        AppContentType.REGISTRATION -> RegistrationPage()
-        AppContentType.HOME -> HomePage()
-        AppContentType.LOADING -> LoadingPage(transparent = false)
+        AppPageContentType.AUTHORIZATION -> AuthPage()
+        AppPageContentType.REGISTRATION -> RegistrationPage()
+        AppPageContentType.HOME -> HomePage()
+        AppPageContentType.LOADING -> LoadingPage(transparent = false)
     }
 }

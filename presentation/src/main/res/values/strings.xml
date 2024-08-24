@@ -23,4 +23,8 @@
     <string name="profile_birthday">Birthday:</string>
     <string name="profile_sign">Sign:</string>
     <string name="profile_status">Status:</string>
+    <string name="profile_name_info">Your name:</string>
+    <string name="profile_city_info">Your city:</string>
+    <string name="profile_status_info">Your status:</string>
+    <string name="profile_editor_apply">Apply</string>
 </resources>

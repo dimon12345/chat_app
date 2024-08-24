@@ -1,34 +1,28 @@
 package com.example.presentation.ui.registration
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.auth.GetPhoneNumberUseCase
 import com.example.domain.auth.StoreCheckAuthCodeResultsUseCase
 import com.example.domain.auth.RegisterUseCase
 import com.example.domain.auth.ValidateUsernameUseCase
-import com.example.presentation.ui.app.AppContentType
-import com.example.presentation.ui.app.AppStateSelector
+import com.example.presentation.ui.app.AppPageContentType
+import com.example.presentation.ui.app.AppPageStateSelector
+import com.example.presentation.ui.app.AppViewModel
 import com.example.presentation.ui.auth.ToastNotificator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class RegistrationViewModel @Inject constructor(
-    private val getPhoneNumberUseCase: GetPhoneNumberUseCase,
     private val validateUsernameUseCase: ValidateUsernameUseCase,
     private val storeCheckAuthCodeResultsUseCase: StoreCheckAuthCodeResultsUseCase,
     private val registerUseCase: RegisterUseCase,
-) : ViewModel() {
+) : AppViewModel() {
     private val _uiState = MutableStateFlow(RegistrationPageState())
     val uiState = _uiState.asStateFlow()
-
-    var toastNotificator: ToastNotificator? = null
-    var appStateSelector: AppStateSelector? = null
 
     fun onNameChanged(name: String) {
         _uiState.value = _uiState.value.copy(
@@ -65,9 +59,9 @@ class RegistrationViewModel @Inject constructor(
                     accessToken = result.accessToken,
                     userId = result.userId,
                 )
-                appStateSelector?.selectState(AppContentType.HOME)
+                setAppPageContentType(AppPageContentType.HOME)
             } else {
-                toastNotificator?.sendToast(result.errorMessage)
+                sendToast(result.errorMessage)
                 _uiState.value = _uiState.value.copy(
                     loading = false,
                     submitButtonEnabled = true,

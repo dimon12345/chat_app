@@ -1,55 +1,17 @@
 package com.example.presentation.ui.app
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.domain.auth.GetAccessTokenUseCase
-import com.example.domain.auth.GetRefreshTokenUseCase
-import com.example.domain.auth.GetUserIdUseCase
-import com.example.presentation.ui.home.HomePageViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.example.presentation.ui.ChatViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-import javax.inject.Inject
+import kotlinx.coroutines.withContext
 
-@HiltViewModel
-class AppViewModel @Inject constructor(
-    private val getUserIdUseCase: GetUserIdUseCase,
-    private val getRefreshTokenUseCase: GetRefreshTokenUseCase,
-    private val getAccessTokenUseCase: GetAccessTokenUseCase,
-) : ViewModel() {
-    private val _uiState = MutableStateFlow(AppState())
-    val uiState = _uiState.asStateFlow()
+abstract class AppViewModel : ChatViewModel() {
+    private val _appContentType = MutableLiveData<AppPageContentType>()
+    val appContentType: LiveData<AppPageContentType>
+        get() = _appContentType
 
-    init {
-        loadSettings()
-    }
-
-    private fun loadSettings() {
-        viewModelScope.launch(Dispatchers.IO) {
-//            _uiState.value = _uiState.value.copy(
-//                currentAppStateType = AppContentType.REGISTRATION
-//            )
-
-            val userId = getUserIdUseCase().first() ?: 0
-            val appContentType = if ( userId > 0L) {
-                assert(!getRefreshTokenUseCase().first().isNullOrBlank())
-                assert(!getAccessTokenUseCase().first().isNullOrBlank())
-                AppContentType.HOME
-            } else {
-                AppContentType.AUTHORIZATION
-            }
-            _uiState.value = _uiState.value.copy(
-                currentAppStateType = appContentType
-            )
-        }
-    }
-
-    fun selectState(appStateType: AppContentType) {
-        _uiState.value = _uiState.value.copy(
-            currentAppStateType = appStateType,
-        )
+    fun setAppPageContentType(contentType: AppPageContentType) {
+        _appContentType.postValue(contentType)
     }
 }

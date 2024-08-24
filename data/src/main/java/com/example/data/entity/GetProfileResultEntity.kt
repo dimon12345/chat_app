@@ -2,7 +2,7 @@ package com.example.data.entity
 
 import com.google.gson.annotations.SerializedName
 
-data class ProfileResultEntity(
+data class GetProfileResultEntity(
     @SerializedName("profile_data")
-    val profileData: ProfileDataResultEntity? = null,
+    val profileData: GetProfileDataResultEntity? = null,
 )

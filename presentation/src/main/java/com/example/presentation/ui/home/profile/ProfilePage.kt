@@ -37,7 +37,11 @@ fun ProfilePage(
                 leftImage = R.drawable.ic_back,
                 rightImage = R.drawable.ic_edit,
                 onLeftButtonTap = { homePageViewModel.onProfileBackPressed() },
-                onRightButtonTap = { homePageViewModel.onProfileEditPressed() }
+                onRightButtonTap = {
+                    if (state.profileEditorEnabled) {
+                        homePageViewModel.onProfileEditPressed()
+                    }
+                }
             )
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.default_padding)))
@@ -52,8 +56,8 @@ fun ProfilePage(
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.half_padding)))
             ProfileText(stringResource(id = R.string.profile_city), state.profile.city)
 
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.half_padding)))
-            ProfileText(stringResource(id = R.string.profile_birthday), state.profile.birthday)
+//            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.half_padding)))
+//            ProfileText(stringResource(id = R.string.profile_birthday), state.profile.birthday)
 
 //        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.half_padding)))
 //        ProfileText(stringResource(id = R.string.profile_sign), "Virgo")

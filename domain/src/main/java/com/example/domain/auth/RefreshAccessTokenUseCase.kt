@@ -10,8 +10,11 @@ class RefreshTokenUseCase @Inject constructor(
     private val mainRepository: MainRepository,
     private val userPreferencesRepository: UserPreferencesRepository,
 ) {
-    suspend operator fun invoke(refreshToken: String) {
-        val result = mainRepository.refreshToken(refreshToken)
+    suspend operator fun invoke(
+        refreshToken: String,
+        accessToken: String,
+    ) {
+        val result = mainRepository.refreshToken(refreshToken, accessToken)
         if (result.code == 200) {
             userPreferencesRepository.setString(ACCESS_TOKEN_KEY, result.accessToken)
         } else {
