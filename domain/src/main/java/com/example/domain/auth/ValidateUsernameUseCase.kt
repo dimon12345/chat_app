@@ -5,6 +5,7 @@ import javax.inject.Inject
 class ValidateUsernameUseCase @Inject constructor(
 ){
     operator fun invoke(username: String): Boolean {
-        return true
+        val regex = "^[A-Za-z0-9_-]*$".toRegex()
+        return regex.matches(username)
     }
 }

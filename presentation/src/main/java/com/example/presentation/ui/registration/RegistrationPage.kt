@@ -60,44 +60,21 @@ fun RegistrationPage(
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.fat_padding)))
 
-            TextField(
-                modifier = Modifier
-                    .height(dimensionResource(id = R.dimen.registration_input_height))
-                    .fillMaxWidth(1f),
+            RegisterInputField(
                 value = state.name,
                 onValueChange = { registrationViewModel.onNameChanged(it) },
                 enabled = !state.loading,
-                colors = TextFieldDefaults.colors().copy(
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                ),
-                shape = RoundedCornerShape(dimensionResource(id = R.dimen.text_field_corner_radius)),
-                label = {
-                    Text(
-                        text = stringResource(id = R.string.registration_name)
-                    )
-                }
+                placeholder = stringResource(id = R.string.registration_name)
+
             )
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.default_padding)))
 
-            TextField(
-                modifier = Modifier
-                    .height(dimensionResource(id = R.dimen.registration_input_height))
-                    .fillMaxWidth(1f),
+            RegisterInputField(
                 value = state.username,
                 onValueChange = { registrationViewModel.onUsernameChanged(it) },
                 enabled = !state.loading,
-                colors = TextFieldDefaults.colors().copy(
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                ),
-                shape = RoundedCornerShape(dimensionResource(id = R.dimen.text_field_corner_radius)),
-                label = {
-                    Text(
-                        text = stringResource(id = R.string.registration_username)
-                    )
-                }
+                placeholder = stringResource(id = R.string.registration_username)
             )
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.default_padding)))
@@ -117,4 +94,32 @@ fun RegistrationPage(
             LoadingPage()
         }
     }
+}
+
+@Composable
+fun RegisterInputField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    enabled: Boolean,
+    placeholder: String,
+) {
+    TextField(
+        modifier = Modifier
+            .fillMaxWidth(1f),
+        value = value,
+        onValueChange = onValueChange,
+        enabled = enabled,
+        colors = TextFieldDefaults.colors().copy(
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+        ),
+        shape = RoundedCornerShape(dimensionResource(id = R.dimen.text_field_corner_radius)),
+        textStyle = MaterialTheme.typography.titleMedium,
+        placeholder = {
+            Text(
+                text = placeholder,
+                style = MaterialTheme.typography.bodyLarge,
+            )
+        }
+    )
 }

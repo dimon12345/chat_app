@@ -31,17 +31,18 @@ class RegistrationViewModel @Inject constructor(
     }
 
     fun onUsernameChanged(username: String) {
+        if (username.isEmpty()) {
+            return
+        }
+
+        if (!validateUsernameUseCase(username)) {
+            return
+        }
+
         _uiState.value = _uiState.value.copy(
             username = username,
+            submitButtonEnabled = true,
         )
-
-        viewModelScope.launch(Dispatchers.IO) {
-            if (validateUsernameUseCase(username)) {
-                _uiState.value = _uiState.value.copy(
-                    submitButtonEnabled = true,
-                )
-            }
-        }
     }
 
     fun onSubmit() {
