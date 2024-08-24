@@ -84,8 +84,8 @@ fun ProfileEditorPage(
                     content = {
                         Text(
                             text = stringResource(id = R.string.profile_editor_apply),
-                            style = MaterialTheme.typography.labelLarge,
-                            color = MaterialTheme.colorScheme.onSurface,
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onPrimary,
                         )
                     },
                     shape = RectangleShape,
