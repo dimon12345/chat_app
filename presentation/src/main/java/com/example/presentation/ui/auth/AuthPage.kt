@@ -66,6 +66,17 @@ fun AuthPage(
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Phone,
                 ),
+                visualTransformation = PhoneVisualTransformation(
+                    mask = "+0 (000) 000 0000",
+                    maskNumber = '0'
+                ),
+                textStyle = MaterialTheme.typography.titleMedium,
+                placeholder = {
+                    Text(
+                        text = stringResource(id = R.string.auth_phone_placeholder),
+                        style = MaterialTheme.typography.bodyLarge,
+                    )
+                }
             )
 
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.default_padding)))

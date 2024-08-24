@@ -27,4 +27,5 @@
     <string name="profile_city_info">Your city:</string>
     <string name="profile_status_info">Your status:</string>
     <string name="profile_editor_apply">Apply</string>
+    <string name="auth_phone_placeholder">Phone number</string>
 </resources>

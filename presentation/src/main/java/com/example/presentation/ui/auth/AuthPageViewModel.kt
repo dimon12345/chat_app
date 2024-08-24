@@ -7,7 +7,6 @@ import com.example.domain.auth.ValidatePhoneNumberUseCase
 import com.example.domain.auth.SavePhoneNumberUseCase
 import com.example.domain.auth.StoreCheckAuthCodeResultsUseCase
 import com.example.domain.data.CheckAuthResult
-import com.example.presentation.ui.app.AppPageStateSelector
 import com.example.presentation.ui.app.AppPageContentType
 import com.example.presentation.ui.app.AppViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthPageViewModel @Inject constructor(
     private val authDeviceUseCase: SendAuthCodeUseCase,
-    private val checkPhoneNumberUseCase: ValidatePhoneNumberUseCase,
+    private val validatePhoneNumberUseCase: ValidatePhoneNumberUseCase,
     private val checkAuthCodeUseCase: CheckAuthCodeUseCase,
     private val storeCheckAuthCodeResultsUseCase: StoreCheckAuthCodeResultsUseCase,
     private val saveUserPhoneUseCase: SavePhoneNumberUseCase,
@@ -43,9 +42,13 @@ class AuthPageViewModel @Inject constructor(
     }
 
     fun onPhoneNumberChanged(phoneNumber: String) {
+        if (!phoneNumber.all(Char::isDigit)) {
+            return
+        }
+
         _uiState.value = _uiState.value.copy(
             phone = phoneNumber,
-            sendCodeButtonEnabled = checkPhoneNumberUseCase(phoneNumber)
+            sendCodeButtonEnabled = validatePhoneNumberUseCase(phoneNumber)
         )
     }
 
