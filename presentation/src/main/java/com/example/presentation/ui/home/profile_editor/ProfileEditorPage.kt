@@ -127,7 +127,7 @@ fun ProfileTextField(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
             ),
-            textStyle = MaterialTheme.typography.titleLarge,
+            textStyle = MaterialTheme.typography.titleMedium,
             maxLines = 1,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(

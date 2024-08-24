@@ -16,4 +16,5 @@
     <!-- registration -->
     <dimen name="registration_input_height">72dp</dimen>
     <dimen name="profile_edit_field_height">82dp</dimen>
+    <dimen name="chat_list_item_height">60dp</dimen>
 </resources>

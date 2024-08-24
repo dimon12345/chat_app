@@ -28,10 +28,6 @@ class AppPageViewModel @Inject constructor(
 
     private fun loadSettings() {
         viewModelScope.launch(Dispatchers.IO) {
-//            _uiState.value = _uiState.value.copy(
-//                currentAppStateType = AppContentType.REGISTRATION
-//            )
-
             val userId = getUserIdUseCase().first() ?: 0
             val appPageContentType = if ( userId > 0L) {
                 assert(!getRefreshTokenUseCase().first().isNullOrBlank())
